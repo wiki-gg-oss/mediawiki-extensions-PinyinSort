@@ -14,23 +14,20 @@ class PinyinCollation extends Collation {
 		return $this->conversionTable;
 	}
 
-	public function convertZhToPinyin( $string ) {
+	public function convertZhToPinyin( $string ): string {
 		$convTable = $this->loadConversionTable();
 
-		$len = mb_strlen( $string, 'UTF-8' );
-		$builder = '';
-		for ( $i = 0; $i < $len; $i++ ) {
-			$char = mb_substr( $string, $i, 1, 'UTF-8' );
-			if ( ord( $char[0] ) < 128 ) {
-				$builder .= $char;
-			} else if ( array_key_exists( $char, $convTable ) ) {
-				$builder .= ucfirst( $convTable[$char] );
-			} else {
-				$builder .= '?';
+        $chrs = mb_str_split( $string, 1, 'UTF-8' );
+        $chrs = array_map( static function ( $chr ) use ( &$convTable ) {
+			if ( ord( $chr[0] ) < 128 ) {
+				return $chr;
+			} else if ( array_key_exists( $chr, $convTable ) ) {
+				return ucfirst( $convTable[$chr] );
 			}
-		}
+			return '?';
+        }, $chrs );
 
-		return $builder;
+		return implode( '', $chrs );
 	}
 
 	public function getSortKey( $string ) {
