@@ -24,11 +24,7 @@ $output = <<<EOT
  *
  */
 
-namespace PinyinSort;
-
-class ConversionTable
-{
-    public static \$zh2pinyin = [
+return [
 
 EOT;
 
@@ -57,8 +53,8 @@ foreach ($lines as $line) {
 	$pinyin = str_replace(['ō', 'ó', 'ǒ', 'ò'], 'o', $pinyin);
 	$pinyin = str_replace(['ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü'], 'v', $pinyin);
 
-	$output .= "        '{$char}' => '{$pinyin}',\n";
+	$output .= "\t'{$char}' => '{$pinyin}',\n";
 }
 
 $output .= "    ];\n}\n";
-file_put_contents(__DIR__ . '/../includes/ConversionTable.php', $output);
+file_put_contents(__DIR__ . '/../includes/ConversionTable.data.php', $output);
