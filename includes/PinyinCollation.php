@@ -24,7 +24,7 @@ class PinyinCollation extends Collation {
 			$charLen = strlen( $char );
 			if ( ord( $char[0] ) < 128 ) {
 				$builder .= $char;
-			} else if ( isset( $convTable[$char] ) ) {
+			} else if ( array_key_exists( $char, $convTable ) ) {
 				$builder .= ucfirst( $convTable[$char] );
 			} else {
 				$builder .= '?';
