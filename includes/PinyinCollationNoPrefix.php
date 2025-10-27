@@ -9,7 +9,7 @@ class PinyinCollationNoPrefix extends PinyinCollation {
 		}
 
 		$parts = explode( ':', $string, 2 );
-		if ( !isset( $parts[1] ) || !$parts[1] ) {
+		if ( !( $parts[1] ?? null ) ) {
 			return $string;
 		} else {
 			return "{$parts[1]}\n$string";
