@@ -2,42 +2,25 @@
 
 namespace PinyinSort;
 
-use Collation;
-use PinyinSort\PinyinCollation;
+class PinyinCollationNoPrefix extends PinyinCollation {
+	private function preprocess( $string ) {
+		if ( strpos( $string, "\n" ) !== false ) {
+			return $string;
+		}
 
-class PinyinCollationNoPrefix extends Collation
-{
-
-	private $collation;
-
-	public function __construct()
-	{
-		$this->collation = new PinyinCollation();
-	}
-
-	private static function process($string)
-	{
-		if (strpos($string, "\n") !== false) {
+		$parts = explode( ':', $string, 2 );
+		if ( !isset( $parts[1] ) || !$parts[1] ) {
 			return $string;
 		} else {
-			$parts = explode(':', $string, 2);
-			if (!isset($parts[1]) || !$parts[1]) {
-				return $string;
-			} else {
-				return $parts[1] . "\n" . $string;
-			}
+			return "{$parts[1]}\n$string";
 		}
 	}
 
-	public function getSortKey($string)
-	{
-		$string = static::process($string);
-		return $this->collation->getSortKey($string);
+	public function getSortKey( $string ) {
+		return parent::getSortKey( $this->preprocess( $string ) );
 	}
 
-	public function getFirstLetter($string)
-	{
-		$string = static::process($string);
-		return $this->collation->getFirstLetter($string);
+	public function getFirstLetter( $string ) {
+		return parent::getFirstLetter( $this->preprocess( $string ) );
 	}
 }
