@@ -18,8 +18,13 @@
 	"AutoloadNamespaces": {
 		"PinyinSort\\": "includes/"
 	},
+	"HookHandlers": {
+		"collationFactory": {
+			"class": "PinyinSort\\CollationFactoryHandler"
+		}
+	},
 	"Hooks": {
-		"Collation::factory": "PinyinSort\\Hooks::onFactory"
+		"Collation::factory": "collationFactory"
 	},
 	"manifest_version": 2
 }
