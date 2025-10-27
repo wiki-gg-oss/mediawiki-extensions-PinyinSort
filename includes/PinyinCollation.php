@@ -42,7 +42,7 @@ class PinyinCollation extends Collation {
 
 		$key = ucfirst( $this->convertZhToPinyin( $key ) );
 
-		return "$key\n$original";
+		return trim( "$key\n$original" );
 	}
 
 	public function getFirstLetter( $string ) {
